@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Хэджер портфеля</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="intro" id="intro">
+        <div class="intro__copy">
+          <p class="eyebrow">MVP сервиса для российского рынка</p>
+          <h1>Хэджер портфеля</h1>
+          <p class="lead">
+            Соберите портфель из акций МосБиржи, выберите цель защиты и получите
+            рабочий план: какие фьючерсы или опционы использовать, в каком объеме
+            и с каким эффектом по риску.
+          </p>
+          <div class="intro__actions">
+            <button class="primary" id="startBtn">Попробовать бесплатно</button>
+            <button class="ghost" id="helpBtn">Справка</button>
+          </div>
+        </div>
+        <div class="terminal-card" aria-label="Пример результата хеджа">
+          <div class="terminal-card__bar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="terminal-card__body">
+            <p>Портфель: 1 864 250 ₽</p>
+            <p>Цель: защита от просадки</p>
+            <p class="accent">Шорт 2 MIX-9.26 + покупка 5 PUT SBER</p>
+            <p>Ожидаемое снижение просадки: 42%</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="app is-locked" id="app">
+        <div class="app__header">
+          <div>
+            <p class="eyebrow">Рабочая область</p>
+            <h2>Конструктор хеджа</h2>
+          </div>
+          <button class="ghost compact" id="helpBtnTop">Справка</button>
+        </div>
+
+        <div class="grid">
+          <section class="panel">
+            <div class="panel__title">
+              <h3>1. Портфель</h3>
+              <span id="positionCount">0 позиций</span>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Акция
+                <select id="tickerSelect"></select>
+              </label>
+              <label>
+                Кол-во
+                <input id="quantityInput" type="number" min="1" step="1" value="10" />
+              </label>
+              <button class="secondary" id="addPositionBtn">Добавить</button>
+            </div>
+
+            <div class="portfolio" id="portfolioList"></div>
+
+            <div class="metric-strip">
+              <div>
+                <span>Стоимость</span>
+                <strong id="portfolioValue">0 ₽</strong>
+              </div>
+              <div>
+                <span>Бета к IMOEX</span>
+                <strong id="portfolioBeta">0.00</strong>
+              </div>
+              <div>
+                <span>Див. доходность</span>
+                <strong id="portfolioYield">0.0%</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel__title">
+              <h3>2. Критерий</h3>
+              <span>цель стратегии</span>
+            </div>
+
+            <div class="criteria" id="criteriaList"></div>
+
+            <div class="actions">
+              <button class="primary" id="hedgeBtn">Захэджировать</button>
+              <button class="secondary" id="leverageBtn">Оптимальные плечи</button>
+            </div>
+          </section>
+        </div>
+
+        <section class="result">
+          <div class="result__header">
+            <div>
+              <p class="eyebrow">Результат</p>
+              <h3 id="resultTitle">Пока нет расчёта</h3>
+            </div>
+            <span class="badge" id="riskBadge">демо-модель</span>
+          </div>
+
+          <div class="result-grid">
+            <div class="recommendations" id="recommendations">
+              <p class="empty">Добавьте позиции и нажмите одну из кнопок расчёта.</p>
+            </div>
+            <div class="chart-card">
+              <canvas id="payoffChart" width="560" height="300"></canvas>
+              <div class="chart-legend">
+                <span><i class="before"></i>без хеджа</span>
+                <span><i class="after"></i>после хеджа</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="helpDialog">
+      <div class="dialog__header">
+        <h2>Как работает MVP</h2>
+        <button class="icon-btn" id="closeHelpBtn" aria-label="Закрыть справку">×</button>
+      </div>
+      <div class="help">
+        <p>
+          Это демонстрационная версия. Она использует заранее заданные цены, беты,
+          лотности и примерные параметры деривативов, чтобы показать продуктовую
+          механику будущего сервиса.
+        </p>
+        <ol>
+          <li>Добавьте акции и количество бумаг в портфель.</li>
+          <li>Выберите критерий: защита, доход от carry, низкая стоимость, сохранение роста или рыночная нейтральность.</li>
+          <li>Кнопка <b>Захэджировать</b> подбирает фьючерсы и опционы для снижения риска.</li>
+          <li>Кнопка <b>Оптимальные плечи</b> сравнивает акции, фьючерсы и опционы по выбранному критерию.</li>
+        </ol>
+        <p>
+          Для промышленной версии нужно подключить реальные данные MOEX ISS:
+          цены, стаканы, ГО, экспирации, волатильность, опционы, фьючерсы и ставки.
+        </p>
+      </div>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
